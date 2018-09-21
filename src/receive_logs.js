@@ -15,13 +15,14 @@ amqp.connect('amqp://localhost', function(err, conn) {
       // Random queue name is generated, can get it by `q.queue`
       console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
       // Notifying to exchange send message to queue by `bindQueue` method
+      // 3-th parameter is user for routing, empty value mean that not route
       ch.bindQueue(q.queue, ex, '');
 
       ch.consume(q.queue, function(msg) {
         console.log(" [x] %s", msg.content.toString());
       }, {noAck: true});
     });
-    
+
   });
 
 });

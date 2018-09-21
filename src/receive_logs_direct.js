@@ -13,12 +13,14 @@ amqp.connect('amqp://localhost', function(err, conn) {
   conn.createChannel(function(err, ch) {
     var ex = 'direct_logs';
 
+    // Using `direct` exchange
     ch.assertExchange(ex, 'direct', {durable: false});
 
     ch.assertQueue('', {exclusive: true}, function(err, q) {
       console.log(' [*] Waiting for logs. To exit press CTRL+C');
 
       args.forEach(function(severity) {
+        // subscribe ex with serverity
         ch.bindQueue(q.queue, ex, severity);
       });
 
@@ -28,3 +30,4 @@ amqp.connect('amqp://localhost', function(err, conn) {
     });
   });
 });
+
